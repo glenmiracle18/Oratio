@@ -10,44 +10,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { FcGoogle } from "react-icons/fc";
-import { TriangleAlert } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
-import type { SignInFlow } from "../auth/types";
+import { TriangleAlert } from "lucide-react";
+import type { SignInFlow } from "../types";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 
-interface SignUpCardProps {
+interface SignInCardProps {
   setState: (state: SignInFlow) => void;
 }
 
-export const SignUpCard = ({ setState }: SignUpCardProps) => {
+export const SignInCard = ({ setState }: SignInCardProps) => {
   const { signIn } = useAuthActions();
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string>("");
 
-  const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+  const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match!");
-      return;
-    }
-
     setPending(true);
-    signIn("password", { email, name, password, flow: "signUp" })
+    signIn("password", { email, password, flow: "signIn" })
       .catch(() => {
-        setError("Something went wrong. Please try again.");
+        setError("Invalid email or password");
       })
       .finally(() => {
         setPending(false);
       });
   };
 
-  const handleProvider = (value: "github" | "google") => {
+  const hanldeProvider = (value: "github" | "google") => {
     setPending(true);
     signIn(value).finally(() => {
       setPending(false);
@@ -57,7 +49,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
-        <CardTitle>Sign up to continue</CardTitle>
+        <CardTitle>Login to continue</CardTitle>
 
         <CardDescription>
           Use your email or another service to continue
@@ -70,14 +62,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         </div>
       )}
       <CardContent className="space-y-5 px-0 pb-0">
-        <form onSubmit={onPasswordSignUp} className="space-y-2.5">
-          <Input
-            placeholder="FullName"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            disabled={pending}
-          />
+        <form onSubmit={onPasswordSignIn} className="space-y-2.5">
           <Input
             type="email"
             placeholder="Email"
@@ -94,14 +79,6 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             onChange={(e) => setPassword(e.target.value)}
             disabled={pending}
           />
-          <Input
-            type="password"
-            placeholder="Confirm Password"
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            disabled={pending}
-          />
           <Button
             type="submit"
             className="w-full "
@@ -112,13 +89,12 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           </Button>
         </form>
         <Separator />
-
         <div className="flex flex-col gap-y-2.5">
           <Button
             disabled={pending}
             className="w-full relative"
             variant="outline"
-            onClick={() => handleProvider("google")}
+            onClick={() => hanldeProvider("google")}
             size="lg"
           >
             Continue with Google
@@ -128,7 +104,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             disabled={pending}
             className="w-full relative"
             variant="outline"
-            onClick={() => handleProvider("github")}
+            onClick={() => hanldeProvider("github")}
             size="lg"
           >
             Continue with Github
@@ -136,12 +112,12 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           </Button>
         </div>
         <p className="text-muted-foreground text-xs">
-          Already have an account?{" "}
+          Don&apos;t have an account?{" "}
           <span
             className="text-sky-500 hover:underline cursor-pointer"
-            onClick={() => setState("signIn")}
+            onClick={() => setState("signUp")}
           >
-            Sign In
+            Sign Up
           </span>
         </p>
       </CardContent>

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import type { SignInFlow } from "../auth/types";
+import type { SignInFlow } from "../types";
 import { SignInCard } from "./sign-in-card";
 import { SignUpCard } from "./sign-up-card";
 export const AuthScreen = () => {

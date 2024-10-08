@@ -1,7 +1,7 @@
 "use client";
 
+import { useCurrentUser } from "@/features/auth/api/use-current-user";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { useCurrentUser } from "@/features/auth/hooks/use-current-user";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -23,7 +23,7 @@ export const UserButton = () => {
   }
 
   const { image, name } = data;
-  const avatarFallback = name?.charAt(0).toUpperCase();
+  const avatarFallback = name!.charAt(0).toUpperCase();
 
   return (
     <DropdownMenu modal={false}>
