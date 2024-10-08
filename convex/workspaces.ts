@@ -12,24 +12,25 @@ export const get = query({
   },
 });
 
+// create a new worksspace
 export const create = mutation({
   args: {
     name: v.string(),
   },
-  hanlder: async (ctx, args) => {
-    const userId = auth.getUserId(ctx);
+
+  handler: async (ctx, args) => {
+    const userId = await auth.getUserId(ctx);
 
     if (!userId) {
       throw new Error("Unauthorized");
     }
 
-    // TODO: fix method later
     const joinCode = "12345";
 
     const workspaceId = await ctx.db.insert("workspaces", {
       name: args.name,
-      joinCode,
       userId,
+      joinCode,
     });
 
     return workspaceId;
