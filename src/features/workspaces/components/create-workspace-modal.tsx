@@ -10,8 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const CreateWorkpsaceModal = () => {
+  const router = useRouter();
   const [open, setOpen] = useCreateWorkspaceModal();
   const { mutate, data, error, isPending, isError, isSuccess, isSettled } =
     useCreateWorkspace();
@@ -21,18 +24,21 @@ export const CreateWorkpsaceModal = () => {
     e.preventDefault();
 
     mutate(
-      { name },
+      { name }, // values
       {
         onSuccess(data) {
-          console.log(data);
+          toast("✅ Workspace created");
+          router.push(`/workspaces/${data}`);
+          handleClose();
         },
-      },
+      }, // options
     );
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="bg-white">

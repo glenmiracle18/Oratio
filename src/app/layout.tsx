@@ -6,6 +6,7 @@ import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { Modals } from "@/components/modals";
 import { ThemeProvider } from "@/components/theme-provider";
 import { useTheme } from "next-themes";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,7 +33,7 @@ export default function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black`}
         >
           <ConvexClientProvider>
             <Modals />
@@ -42,6 +43,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <Toaster />
               {children}
             </ThemeProvider>
           </ConvexClientProvider>

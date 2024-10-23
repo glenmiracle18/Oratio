@@ -5,6 +5,7 @@ import { auth } from "./auth";
 
 // all the queries for the workspaces table
 
+// get all workspaces
 export const get = query({
   args: {},
   handler: async (ctx) => {
