@@ -16,7 +16,7 @@ import { toast } from "sonner";
 export const CreateWorkpsaceModal = () => {
   const router = useRouter();
   const [open, setOpen] = useCreateWorkspaceModal();
-  const { mutate, data, error, isPending, isError, isSuccess, isSettled } =
+  const { mutate, isPending,} =
     useCreateWorkspace();
   const [name, setName] = useState<string>("");
 
@@ -26,11 +26,15 @@ export const CreateWorkpsaceModal = () => {
     mutate(
       { name }, // values
       {
-        onSuccess(data) {
+        onSuccess(data) { // data or workspaceId here
           toast("✅ Workspace created");
           router.push(`/workspaces/${data}`);
           handleClose();
         },
+        onError(error) {
+          toast("📛 Failed to create your workpace")
+          handleClose();
+        }
       }, // options
     );
   };

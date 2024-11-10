@@ -11,6 +11,7 @@ export default function Home() {
 
   const [open, setOpen] = useCreateWorkspaceModal(); // global state management with jotai
   const router = useRouter();
+  
   useEffect(() => {
     if (isLoading) return;
 
