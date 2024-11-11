@@ -39,7 +39,7 @@ export default function RootLayout({
             <Modals />
             <ThemeProvider
               attribute="class"
-              defaultTheme="dark"
+              defaultTheme="light"
               enableSystem
               disableTransitionOnChange
             >
