@@ -1,17 +1,21 @@
-"use client"
-import { Toolbar } from "./toolbar"
+"use client";
+import Sidebar from "./sidebar";
+import { Toolbar } from "./toolbar";
 
 interface WorkspaceIdLayoutProps {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
-    return (
-        <div className="h-full">
-            <Toolbar />
-            {children}
-            </div>
-    )
-}
+  return (
+    <div className="h-full">
+      <Toolbar />
+      <div className="h-[calc(100vh-40px)] flex">
+        <Sidebar />
+        {children}
+      </div>
+    </div>
+  );
+};
 
-export default WorkspaceIdLayout
+export default WorkspaceIdLayout;

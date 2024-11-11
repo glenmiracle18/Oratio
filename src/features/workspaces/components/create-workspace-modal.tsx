@@ -28,7 +28,7 @@ export const CreateWorkpsaceModal = () => {
       {
         onSuccess(data) { // data or workspaceId here
           toast("✅ Workspace created");
-          router.push(`/workspaces/${data}`);
+          router.push(`/workspace/${data}`);
           handleClose();
         },
         onError(error) {
