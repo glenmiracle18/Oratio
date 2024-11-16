@@ -1,6 +1,7 @@
 import React from 'react'
 import {
     DropdownMenu,
+    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
@@ -25,13 +26,11 @@ const WorkspaceSwitcher= () => {
 
     const {data: workspaces, isLoading: workspacesLoading } = useGetWorkspaces(); // for all workspaces
 
-    const filterWorkspaces = workspaces?.filter(
-        (workspace) => workspace?._id !== workpsaceId
-    )
+    const filterWorkspaces = workspaces?.filter((workspace) => workspace?._id !== workpsaceId)
 
   return (
     <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
             <Button className='size-9 relative overflow-hidden bg-[#ABABAB] hover:bg-[#ABABAB]/80 text-slate-800 font-semibold text-xl '>
                 {workspaceLoading ? (
                     <Loader className='size-5 shrink-0 animate-spin' />
@@ -63,6 +62,7 @@ const WorkspaceSwitcher= () => {
                         <p className="truncate">{workspace.name}</p>
                     </DropdownMenuItem>
                 ))}
+                
                 <DropdownMenuItem
                 className='cursor-pointer'
                 onClick={() => setOpen(true)}
