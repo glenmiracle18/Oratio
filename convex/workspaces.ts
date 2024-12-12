@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { auth } from "./auth";
 
-// invitation code
+// generate random invitation code
 const generateCode = () => {
   const code = Array.from(
     {length: 6},
@@ -12,7 +12,7 @@ const generateCode = () => {
   return code
 };
 
-// all the queries for the workspaces table
+// all the queries for the workspaces table∏
 
 // create a new worksspace and and current user as admin
 export const create = mutation({
@@ -29,6 +29,7 @@ export const create = mutation({
 
     const joinCode = generateCode()
 
+    // because the response after mutating(creating) any convex document, by default is just returns the id
     const workspaceId = await ctx.db.insert("workspaces", {
       name: args.name,
       userId,
@@ -56,7 +57,7 @@ export const get = query({
       return [];
     }
 
-    // get all the workspaces that this user is a member of
+    // get all the workspaces that this user is a member of and store in members array
     const members = await ctx.db
       .query("members")
       .withIndex("by_user_id", (q) => q.eq("userId", userId))
