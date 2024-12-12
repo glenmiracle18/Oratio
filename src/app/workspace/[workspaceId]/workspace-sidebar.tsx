@@ -35,8 +35,8 @@ const WorskpaceSidebar = () => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#5E2C5F]">
-       <WorkspaceHeader />
+    <div className="flex flex-col h-full bg-[#5E2C5F] py-2">
+       <WorkspaceHeader workspace={workspace} isAdmin={member.role === 'admin'} />
     </div>
   ) 
 };

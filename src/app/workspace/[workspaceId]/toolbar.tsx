@@ -1,3 +1,4 @@
+import Hint from '@/components/hint'
 import { Button } from '@/components/ui/button'
 import { useGetWorkspace } from '@/features/workspaces/api/use-get-workpace'
 import { useWorkspaceId } from '@/hooks/use-workspace-id'
@@ -21,9 +22,11 @@ export const Toolbar = () => {
         </div>
       
       <div className="ml-auto flex flex-1 items-center justify-end">
+        <Hint label='Info' side='left'>
         <Button variant="transparent" size="iconSm">
             <Info className='size-5 text-white' />
         </Button>
+        </Hint>
       </div>
     </nav>
   )
