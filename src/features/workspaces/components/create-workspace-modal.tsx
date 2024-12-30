@@ -16,8 +16,7 @@ import { toast } from "sonner";
 export const CreateWorkpsaceModal = () => {
   const router = useRouter();
   const [open, setOpen] = useCreateWorkspaceModal();
-  const { mutate, isPending,} =
-    useCreateWorkspace();
+  const { mutate, isPending,} = useCreateWorkspace();
   const [name, setName] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

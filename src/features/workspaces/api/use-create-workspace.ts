@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 
 type RequestType = { name: string };
-type ResponseType = Id<"workspaces"> | null;
+type ResponseType = Id<"workspaces"> | null; // by default, convex returns the id of any document, if the return was not explicitly stated
 
 type Options = {
   onSuccess?: (data: ResponseType) => void;
