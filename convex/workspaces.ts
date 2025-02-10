@@ -2,7 +2,6 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { auth } from "./auth";
-import { useRouter } from "next/navigation";
 
 // generate random invitation code
 const generateCode = () => {
@@ -13,7 +12,6 @@ const generateCode = () => {
   return code
 };
 
-const router = useRouter()
 // all the queries for the workspaces table∏
 
 // create a new worksspace and and current user as admin
@@ -26,7 +24,6 @@ export const create = mutation({
     const userId = await auth.getUserId(ctx);
 
     if (!userId) {
-      router.replace('/login')
       return []
     }
 
@@ -45,6 +42,13 @@ export const create = mutation({
       workspaceId,
       role: "admin",
     });
+
+    // create a default channel
+    await ctx.db.insert("channels", {
+      name: "general",
+      workspaceId,
+    });
+    
 
     return workspaceId;
   },

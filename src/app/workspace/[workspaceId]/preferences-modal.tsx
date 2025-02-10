@@ -17,6 +17,7 @@ import { Loader, TrashIcon } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface PreferencesModalProps {
   open: boolean;
@@ -33,6 +34,9 @@ const PreferencesModal = ({
   const [value, setValue] = useState<string>(initialValue);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const router = useRouter();
+
+  const [ ConfrimDialog, confirm ] = useConfirm("Are you sure", "This action is irreversible");
+
 
   const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } =
     useUpdateWorkpsace();
@@ -60,7 +64,10 @@ const PreferencesModal = ({
         })
     }
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
+      const confirmed = await confirm();
+      if (!confirmed) return;
+      
       removerWorkspace({ id: workspaceId }, 
         {
           onSuccess: () => {
@@ -79,6 +86,8 @@ const PreferencesModal = ({
     }
 
   return (
+    <>
+    <ConfrimDialog />
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="text-black p-0 bg-gray-50 overflow-hidden">
         <DialogHeader className="p-4 bg-white">
@@ -142,6 +151,7 @@ const PreferencesModal = ({
         </div>
       </DialogContent>
     </Dialog>
+    </>
   );
 };
 
