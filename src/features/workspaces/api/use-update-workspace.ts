@@ -18,10 +18,10 @@ export const useUpdateWorkpsace = () => {
   const [error, setError] = useState<Error | null>(null);
   const [status, setStatus] = useState<
     "pending" | "success" | "error" | "settled" | null
-  >(null); // null or idle state
+  >(null); // null or idle state as default state
 
   // useMemo is used to avoid re-rendering the component when the status changes
-  const isPending = useMemo(() => status === "pending", [status]);
+  const isPending = useMemo(() => status === "pending", [status]); // if status is eq pending, the isPending is True | same theory with the other comps
   const isSuccess = useMemo(() => status === "success", [status]);
   const isError = useMemo(() => status === "error", [status]);
   const isSettled = useMemo(() => status === "settled", [status]);

@@ -3,6 +3,7 @@ import { v } from "convex/values";
 import { query } from "./_generated/server";
 import { auth } from "./auth";
 
+// getting the current from cvx
 export const current = query({
     args: { workspaceId: v.id("workspaces")},
     handler: async (ctx, args) => {

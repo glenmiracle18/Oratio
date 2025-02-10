@@ -2,6 +2,7 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { auth } from "./auth";
+import { useRouter } from "next/navigation";
 
 // generate random invitation code
 const generateCode = () => {
@@ -12,6 +13,7 @@ const generateCode = () => {
   return code
 };
 
+const router = useRouter()
 // all the queries for the workspaces table∏
 
 // create a new worksspace and and current user as admin
@@ -24,7 +26,8 @@ export const create = mutation({
     const userId = await auth.getUserId(ctx);
 
     if (!userId) {
-      return [];
+      router.replace('/login')
+      return []
     }
 
     const joinCode = generateCode()
@@ -106,7 +109,7 @@ export const getById = query({
 });
 
 
-// creating a mutation to update the workspace
+// creating a mutation to update the name of workspace
 export const update = mutation({
   args: { id: v.id('workspaces'), name: v.string() },
   handler: async (ctx, args ) => {
@@ -116,6 +119,7 @@ export const update = mutation({
       throw new Error("Unauthorized");
     }
 
+    // making sure only the admin can perform this.
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspace_id_user_id", (q) =>
@@ -128,6 +132,7 @@ export const update = mutation({
       }
 
       await ctx.db.patch( args.id, { name: args.name } );
+      console.log('done')
 
       return args.id;
   }

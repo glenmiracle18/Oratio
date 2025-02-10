@@ -36,7 +36,9 @@ export const useRemoveWorkpsace = () => {
         setStatus("pending");
 
         const response = await mutation(values) as ResponseType; // when the mutations is called, it returns an Id<"workspaces"> which is parsed to the onSucecss function
-        options?.onSuccess?.(response);
+        options?.onSuccess?.(response)
+        setStatus("success")
+        console.log("not deleted")
         return response;
       } catch (error) {
         setStatus('error')

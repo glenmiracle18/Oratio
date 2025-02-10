@@ -13,9 +13,10 @@ import { useRemoveWorkpsace } from "@/features/workspaces/api/use-remove-workspa
 import { useUpdateWorkpsace } from "@/features/workspaces/api/use-update-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { TrashIcon } from "lucide-react";
+import { Loader, TrashIcon } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface PreferencesModalProps {
   open: boolean;
@@ -31,6 +32,7 @@ const PreferencesModal = ({
 }: PreferencesModalProps) => {
   const [value, setValue] = useState<string>(initialValue);
   const [editOpen, setEditOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } =
     useUpdateWorkpsace();
@@ -58,6 +60,24 @@ const PreferencesModal = ({
         })
     }
 
+    const handleDelete = () => {
+      removerWorkspace({ id: workspaceId }, 
+        {
+          onSuccess: () => {
+            console.log('delete successful')
+            router.replace('/')
+            setEditOpen(false)
+            toast.success("workspace deleted")
+          },
+          onError: () => {
+            console.log('an error occured')
+            setEditOpen(false)
+            setEditOpen(false)
+            toast.error("⛔️ Failed to update workspace")
+        }
+        })
+    }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="text-black p-0 bg-gray-50 overflow-hidden">
@@ -78,7 +98,7 @@ const PreferencesModal = ({
                     <DialogHeader>
                         <DialogTitle>Rename this workspace</DialogTitle>
                     </DialogHeader>
-                    <form action="" onSubmit={() => {handleEdit}} className="space-y-4">
+                    <form action="" onSubmit={handleEdit} className="space-y-4">
                         <Input 
                         value={value} 
                         disabled={isUpdatingWorkspace} 
@@ -95,7 +115,7 @@ const PreferencesModal = ({
                                     Cancel
                                 </Button>
                             </DialogClose>
-                            <Button type='submit' onClick={() => {handleEdit}} disabled={isUpdatingWorkspace}>Save</Button>
+                            <Button type='submit' disabled={isUpdatingWorkspace}>Save</Button>
                         </DialogFooter>
                     </form>
                   </DialogContent>
@@ -106,12 +126,18 @@ const PreferencesModal = ({
           </Dialog>
 
           <button
-            disabled={false}
-            onClick={() => {}}
+            disabled={isRemovingWorkspace}
+            onClick={handleDelete}
             className="flex items-center gap-x-2 py-4 px-5 bg-white rounded-lg cursor-pointer text-rose-600"
           >
-            <TrashIcon className="size-4" />
-            <p className="text-sm font-semibold">Delete Workspace</p>
+            {isRemovingWorkspace ? (
+              <Loader className="size-10 animate-spin" />
+            ) : (
+              <div className="flex items-center gap-2">
+                <TrashIcon className="size-4" />
+                <p className="text-sm font-semibold">Delete Workspace</p>
+              </div>
+            )}
           </button>
         </div>
       </DialogContent>
