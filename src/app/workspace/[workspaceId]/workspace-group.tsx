@@ -25,7 +25,7 @@ export const WorkspaceGroup = ({
         <div className="flex flex-col px-2">
             <div className="flex items-center px-3.5 group">
                 <Button variant='transparent' className="p-0.5 text-sm text-[#f9edffcc] shrink-0 size-6" onClick={toggle}>
-                    <FaCaretDown  className={cn("size-4", !on && "-rotate-90 transition-all " )}/>
+                    <FaCaretDown  className={cn("size-4 transition-transform", on && "-rotate-90" )}/>
                 </Button>
                 <Button variant='transparent' size='sm' className="p-1.5 group text-sm text-[#f9edffcc] h-[24px] justify-start overflow-hidden items-center">
                     <span className="truncate">{label}</span>
