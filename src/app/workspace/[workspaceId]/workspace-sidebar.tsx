@@ -13,6 +13,8 @@ import WorkspaceHeader from "./workspace-header";
 import SidebarItem from "./SidebarItem";
 import useGetChannels from "@/features/channels/api/use-get-channels";
 import {WorkspaceGroup} from "./workspace-group";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { channel } from "diagnostics_channel";
 
 const WorskpaceSidebar = () => {
   const workspaceId = useWorkspaceId();
@@ -25,6 +27,11 @@ const WorskpaceSidebar = () => {
   });
 
   const { data: channels, isLoading: channelsLoading } = useGetChannels({ workspaceId})
+
+  // get all the members of the workspace
+  const { data: members, isLoading: membersLoading } = useGetMembers({ workspaceId });
+
+
 
   if (workspaceLoading || memberLoading) {
     return (
@@ -69,8 +76,16 @@ const WorskpaceSidebar = () => {
           />
         ))}
         </WorkspaceGroup>
+
+        {members?.map((item) => (
+          <div>
+            {item.user.name}
+          </div>
+        ))}
     </div>
   );
 };
 
 export default WorskpaceSidebar;
+
+

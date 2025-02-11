@@ -43,6 +43,7 @@ export const create = mutation({
       role: "admin",
     });
 
+    
     // create a default channel
     await ctx.db.insert("channels", {
       name: "general",
